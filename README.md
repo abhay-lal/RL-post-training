@@ -1,4 +1,4 @@
-# Notes extracted from `main-6.pdf`
+# Notes
 
 These mirror the provided PDF and use math-friendly Markdown.
 
