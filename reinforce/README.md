@@ -13,7 +13,7 @@ Minimal equations used by `reinforce.py`.
 ## Notes
 - Baseline can be a learned value function or any control variate.
 - Entropy bonus (optional) encourages exploration:  
-  $\mathcal{L}_{\text{entropy}} = - \alpha \, \mathbb{E}[H(\pi_\theta(\cdot\mid s))]$
+  $\mathcal{L}_{\text{entropy}} = - \alpha \,\mathbb{E}[H(\pi_\theta(\cdot\mid s))]$
 
 ## Symbol reference (LLM context)
 | Symbol | Meaning in LLM training |

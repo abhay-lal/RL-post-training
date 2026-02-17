@@ -11,10 +11,10 @@ Equations referenced by `ppo.py`.
 
 ## Value and entropy terms
 - Optional clipped value loss  
-  $V^{\text{clip}}_t = V_{\text{old},t} + \text{clip}(V_t - V_{\text{old},t}, -\epsilon_v, \epsilon_v)$  
+  $V^{\text{clip}}_{t} = V_{\text{old},t} + \operatorname{clip}(V_t - V_{\text{old},t}, -\epsilon_v, \epsilon_v)$  
   $\mathcal{L}_V = \tfrac{1}{2} \max\big((V_t - R_t)^2,\ (V^{\text{clip}}_t - R_t)^2\big)$
 - Entropy bonus for exploration  
-  $\mathcal{L}_{\text{entropy}} = - \beta \, \mathbb{E}[H(\pi_\theta(\cdot\mid s_t))]$
+  $\mathcal{L}_{\text{entropy}} = - \beta \,\mathbb{E}[H(\pi_\theta(\cdot\mid s_t))]$
 
 ## Total loss (minimization form)
 $$
