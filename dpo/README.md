@@ -15,3 +15,14 @@ Equations referenced by `dpo.py`.
 ## Notes
 - Larger $\beta$ pulls the policy closer to the reference (stronger KL-style regularization).
 - Requires pairwise preference data (winner/loser) rather than scalar rewards.
+
+## Symbol reference (LLM context)
+| Symbol | Meaning in LLM training |
+| --- | --- |
+| $x$ | Input prompt |
+| $y_w, y_l$ | Preferred (winner) and rejected (loser) responses |
+| $\pi_\theta$ | Current policy (LLM) producing token probabilities |
+| $\pi_{\text{ref}}$ | Frozen reference policy |
+| $\Delta$ | Preference margin from log-probability ratios |
+| $\beta$ | Strength of regularization toward the reference (KL-like) |
+| $\sigma$ | Sigmoid; converts margin to preference probability |

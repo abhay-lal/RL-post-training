@@ -20,3 +20,19 @@ Equations referenced by `ppo.py`.
 $$
 \mathcal{L}_{\text{total}} = \mathcal{L}_{\text{clip}} + c_v \mathcal{L}_V + \mathcal{L}_{\text{entropy}}
 $$
+
+## Symbol reference (LLM context)
+| Symbol | Meaning in LLM training |
+| --- | --- |
+| $s_t$ | Prompt plus generated tokens up to step $t$ (context) |
+| $a_t$ | Token sampled at step $t$ |
+| $\pi_\theta$ | Current policy (LLM) producing token probabilities |
+| $\pi_{\text{old}}$ | Frozen policy used when data were collected |
+| $r_t$ | Scalar reward at step $t$ (often terminal) |
+| $A_t$ | Advantage (e.g., GAE or $Q_t - V_t$) |
+| $V_t$ | Value estimate (critic) at step $t$ |
+| $R_t$ | Return target for value learning |
+| $r_t(\theta)$ | Probability ratio $\pi_\theta / \pi_{\text{old}}$ for the taken token |
+| $\epsilon, \epsilon_v$ | Clip ranges for policy and value updates |
+| $c_v$ | Weight on value loss |
+| $\beta$ | Weight on entropy bonus (named $\beta$ here to match the equation) |

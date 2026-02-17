@@ -19,3 +19,18 @@ $$
 ## Notes
 - Removes the learned critic; relies on multiple samples per prompt to form a baseline.
 - Memory/compute lighter than PPO when group size is modest.
+
+## Symbol reference (LLM context)
+| Symbol | Meaning in LLM training |
+| --- | --- |
+| $s$ | Prompt plus generated tokens (context for a response) |
+| $a$ | Token sampled at a given step |
+| $r_i$ | Scalar reward for sample $i$ in a group |
+| $A_i$ | Group-relative advantage: normalized $(r_i - \text{mean})/\text{std}$ |
+| $g$ | Group/prompt identifier |
+| $\pi_\theta$ | Current policy (LLM) |
+| $\pi_{\text{old}}$ | Policy used to generate the sampled completions |
+| $\pi_{\text{ref}}$ | Frozen reference policy (for KL) |
+| $r_i$ (ratio) | Probability ratio $\pi_\theta / \pi_{\text{old}}$ for a token |
+| $\epsilon$ | Clip range for the policy ratio |
+| $\beta_{\text{KL}}$ | Weight on the KL regularization term |
