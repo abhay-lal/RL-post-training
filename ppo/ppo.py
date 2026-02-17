@@ -48,14 +48,17 @@ def ppo_clipped_loss(
     cfg = config or PPOConfig()
 
     adv = advantages
+    # Step 1: normalize advantages (common PPO stabilization)
     if cfg.normalize_advantage:
         adv = (adv - adv.mean()) / (adv.std(unbiased=False) + 1e-8)
 
+    # Step 2: compute probability ratio between new and old policies
     ratio = torch.exp(log_probs - old_log_probs)
     clipped_ratio = torch.clamp(ratio, 1.0 - cfg.clip_range, 1.0 + cfg.clip_range)
+    # Step 3: clipped surrogate objective chooses the conservative improvement
     pg_loss = -torch.min(ratio * adv, clipped_ratio * adv).mean()
 
-    # Value loss (optional).
+    # Step 4: optional value loss (clipped) to stabilize critic learning
     if value_preds is not None and returns is not None:
         if old_value_preds is None:
             value_loss = 0.5 * F.mse_loss(value_preds, returns)
@@ -69,8 +72,9 @@ def ppo_clipped_loss(
     else:
         value_loss = torch.tensor(0.0, device=log_probs.device)
 
-    # Entropy bonus encourages exploration.
+    # Step 5: entropy bonus encourages exploration
     entropy = -(log_probs.exp() * log_probs).mean()
+    # Step 6: total loss = policy + value - entropy
     loss = pg_loss + cfg.value_coef * value_loss - cfg.entropy_coef * entropy
     return loss
 

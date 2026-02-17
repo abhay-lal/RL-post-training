@@ -66,17 +66,22 @@ def grpo_loss(
     """
     cfg = config or GRPOConfig()
 
+    # Step 1: group-relative advantage = (r - mean) / std per prompt group
     advantages = _group_normalize_advantages(rewards, group_ids, cfg.eps).detach()
+    # Step 2: policy ratio new/old
     ratio = torch.exp(log_probs - old_log_probs)
     clipped_ratio = torch.clamp(ratio, 1.0 - cfg.clip_range, 1.0 + cfg.clip_range)
+    # Step 3: PPO-style clipped surrogate using group advantages
     pg_loss = -torch.min(ratio * advantages, clipped_ratio * advantages).mean()
 
     if ref_log_probs is not None:
         # Sampled forward KL approximation: E[log π - log π_ref]
         kl = (log_probs - ref_log_probs).mean()
+        # Step 4: add KL regularization to keep policy near reference
         loss = pg_loss + cfg.beta_kl * kl
     else:
         loss = pg_loss
+    # Step 5: return combined loss
     return loss
 
 

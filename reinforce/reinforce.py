@@ -73,6 +73,7 @@ def reinforce_loss(
             precomputed entropy if you sampled with a distribution object).
         entropy_coef: weight for the entropy bonus.
     """
+    # Step 1: convert returns to advantage (optionally subtract baseline)
     if baseline is not None:
         advantages = returns - baseline
     else:
@@ -81,8 +82,10 @@ def reinforce_loss(
     # Align shapes for broadcasting.
     advantages = advantages.detach()
 
+    # Step 2: REINFORCE objective (minimize -G_t log π(a_t|s_t))
     policy_loss = -(advantages * log_probs).mean()
 
+    # Step 3: optional entropy bonus to encourage exploration
     if entropy is None:
         # If log_probs are from a categorical sample, we approximate entropy
         # using the log-prob itself; more stable is to pass entropy explicitly
@@ -92,6 +95,8 @@ def reinforce_loss(
         entropy_term = entropy
 
     entropy_loss = -(entropy_coef * entropy_term).mean()
+
+    # Step 4: combine policy gradient and entropy terms
     return policy_loss + entropy_loss
 
 

@@ -42,10 +42,12 @@ def dpo_loss(
         config: DPOConfig controlling beta.
     """
     cfg = config or DPOConfig()
-    # Preference margin constructed from log-prob ratios.
+    # Step 1: construct preference margin from log-prob ratios vs. reference
     margin = cfg.beta * (
         (chosen_logps - ref_chosen_logps) - (rejected_logps - ref_rejected_logps)
     )
+    # Step 2: Bradley–Terry likelihood => log-sigmoid of margin
+    # Step 3: minimize negative log-likelihood (mean over batch)
     return -F.logsigmoid(margin).mean()
 
 
