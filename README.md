@@ -1,7 +1,5 @@
 # Notes
 
-These mirror the provided PDF and use math-friendly Markdown.
-
 ## Context: RL for LLMs
 - Pipeline: pre-training → supervised fine-tuning → preference/reasoning fine-tuning.
 - Goal: improve using human preferences or verifiable rewards when web-scale data is saturated.
