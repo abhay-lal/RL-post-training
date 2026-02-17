@@ -8,32 +8,23 @@
 ## PPO (actor–critic with clipping)
 - Advantage: $A_t = Q(s_t, a_t) - V(s_t)$.
 - Ratio: $r_t(\theta) = \dfrac{\pi_{\text{new}}(a_t \mid s_t)}{\pi_{\text{old}}(a_t \mid s_t)}$.
-- Clipped objective:  
-  $$
-  L_{\text{CLIP}} = \mathbb{E}\Big[\min\big(r_t A_t,\ \operatorname{clip}(r_t, 1-\epsilon, 1+\epsilon) A_t\big)\Big]
-  $$
+- Clipped objective: $L_{\text{CLIP}} = \mathbb{E}\big[\min(r_t A_t,\ \operatorname{clip}(r_t, 1-\epsilon, 1+\epsilon)\, A_t)\big]$.
 - Pros: stable; mitigates collapse. Cons: heavier compute/memory (policy + ref + reward + critic).
 
 ## DPO (direct preference optimization)
 - Bradley–Terry preference: $P(y_w > y_l) = \sigma\big(r(x, y_w) - r(x, y_l)\big)$.
-- Loss using log-prob ratios to a frozen reference:  
-  $$
-  L_{\text{DPO}} = -\mathbb{E}\Big[\log \sigma\Big(\beta \log \tfrac{\pi_\theta(y_w\mid x)}{\pi_{\text{ref}}(y_w\mid x)} - \beta \log \tfrac{\pi_\theta(y_l\mid x)}{\pi_{\text{ref}}(y_l\mid x)}\Big)\Big]
-  $$
+- Loss using log-prob ratios to a frozen reference: $L_{\text{DPO}} = -\mathbb{E}\big[\log \sigma(\beta \log \tfrac{\pi_\theta(y_w\mid x)}{\pi_{\text{ref}}(y_w\mid x)} - \beta \log \tfrac{\pi_\theta(y_l\mid x)}{\pi_{\text{ref}}(y_l\mid x)})\big]$.
 - Pros: simple (policy + reference only). Cons: best aligned to pairwise preference data.
 
 ## GRPO (group-relative policy optimization)
 - Group sampling: draw $G$ outputs per prompt; compute group mean/std of rewards.
 - Normalized advantage: $A_i = \dfrac{r_i - \operatorname{mean}(\text{Rewards}_{\text{group}})}{\operatorname{std}(\text{Rewards}_{\text{group}})}$.
-- Loss:  
-  $$
-  L_{\text{GRPO}} = L_{\text{PPO\_CLIP}} + \beta\, D_{\text{KL}}(\pi_\theta \,\|\, \pi_{\text{ref}})
-  $$
+- Loss: $L_{\text{GRPO}} = L_{\text{PPO\_CLIP}} + \beta\, D_{\text{KL}}(\pi_\theta \,\|\, \pi_{\text{ref}})$.
 - Pros: removes critic → memory/compute savings; good for verifiable rewards. Cons: needs multiple samples per prompt; sensitive to group size.
 
 ## Policy gradient & REINFORCE
 - Return: $G_t = r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + \dots$
-- Update: $\theta_{t+1} = \theta_t + \alpha \,\nabla \log \pi_\theta(a_t \mid s_t) \, G_t$
+- Update: $\theta_{t+1} = \theta_t + \alpha \,\nabla \log \pi_\theta(a_t \mid s_t)\, G_t$
 - Loss form: $L_{\text{REINFORCE}} = -\sum_t G_t \log \pi_\theta(a_t \mid s_t)$
 - With baseline $b$: use $G_t - b$ to reduce variance (critic in PPO; group stats in GRPO).
 - Pros: simple, unbiased; supports stochastic policies. Cons: high variance; Monte Carlo delay.
