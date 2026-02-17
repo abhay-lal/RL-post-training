@@ -8,7 +8,7 @@
 ## PPO (actor–critic with clipping)
 - Advantage: $A_t = Q(s_t, a_t) - V(s_t)$.
 - Ratio: $r_t(\theta) = \dfrac{\pi_{\text{new}}(a_t \mid s_t)}{\pi_{\text{old}}(a_t \mid s_t)}$.
-- Clipped objective: $L_{\text{CLIP}} = \mathbb{E}\big[\min(r_t A_t,\ \operatorname{clip}(r_t, 1-\epsilon, 1+\epsilon)\, A_t)\big]$.
+- Clipped objective: $L_{\text{CLIP}} = \mathbb{E}\big[\min(r_t A_t,\ \text{clip}(r_t, 1-\epsilon, 1+\epsilon)\, A_t)\big]$.
 - Pros: stable; mitigates collapse. Cons: heavier compute/memory (policy + ref + reward + critic).
 
 ## DPO (direct preference optimization)
@@ -18,7 +18,7 @@
 
 ## GRPO (group-relative policy optimization)
 - Group sampling: draw $G$ outputs per prompt; compute group mean/std of rewards.
-- Normalized advantage: $A_i = \dfrac{r_i - \operatorname{mean}(\text{Rewards}_{\text{group}})}{\operatorname{std}(\text{Rewards}_{\text{group}})}$.
+- Normalized advantage: $A_i = \dfrac{r_i - \text{mean}(\text{Rewards}_{\text{group}})}{\text{std}(\text{Rewards}_{\text{group}})}$.
 - Loss: $L_{\text{GRPO}} = L_{\text{PPO\_CLIP}} + \beta\, D_{\text{KL}}(\pi_\theta \,\|\, \pi_{\text{ref}})$.
 - Pros: removes critic → memory/compute savings; good for verifiable rewards. Cons: needs multiple samples per prompt; sensitive to group size.
 
