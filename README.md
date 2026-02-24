@@ -1,6 +1,9 @@
 # Notes
 
 ## Context: RL for LLMs
+
+![Language model RL at a glance](summary.JPG)
+
 - Pipeline: pre-training → supervised fine-tuning → preference/reasoning fine-tuning.
 - Goal: improve using human preferences or verifiable rewards when web-scale data is saturated.
 - Challenge: propagate a sparse final reward through long token trajectories; variance is high.
@@ -55,3 +58,20 @@
 | $\beta$ | KL or preference strength |
 | $\gamma$ | Discount factor |
 | $\alpha$ | Learning-rate or entropy coefficient (contextual) |
+
+## References
+- **RL for LLMs / RLHF**
+  - Christiano et al., *Deep Reinforcement Learning from Human Preferences* ([arXiv:1706.03741](https://arxiv.org/abs/1706.03741))
+  - Ouyang et al., *Training language models to follow instructions with human feedback* ([arXiv:2203.02155](https://arxiv.org/abs/2203.02155))
+- **PPO (Proximal Policy Optimization)**
+  - Schulman et al., *Proximal Policy Optimization Algorithms* ([arXiv:1707.06347](https://arxiv.org/abs/1707.06347))
+- **DPO (Direct Preference Optimization)**
+  - Rafailov et al., *Direct Preference Optimization: Your Language Model is Secretly a Reward Model* ([arXiv:2305.18290](https://arxiv.org/abs/2305.18290))
+- **GRPO (Group-Relative Policy Optimization)**
+  - DeepSeek AI, *DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models* ([OpenReview](https://arxiv.org/abs/2402.03300))
+- **Policy gradient / REINFORCE**
+  - Williams, *Simple statistical gradient-following algorithms for connectionist reinforcement learning* ([DOI:10.1007/BF00992696](https://doi.org/10.1007/BF00992696))
+- **Reference sheet source**
+  - Lambert, *Reinforcement Learning from Human Feedback* ([rlhfbook.com](https://rlhfbook.com))
+
+
