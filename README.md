@@ -1,4 +1,57 @@
-# Notes
+## RL post-training notes
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+### Table of contents
+- [What this repo is / isn’t](#what-this-repo-is--isnt)
+- [Repo structure](#repo-structure)
+- [Quickstart](#quickstart)
+- [Context: RL for LLMs](#context-rl-for-llms)
+- [PPO (actor–critic with clipping)](#ppo-actorcritic-with-clipping)
+- [DPO (direct preference optimization)](#dpo-direct-preference-optimization)
+- [GRPO (group-relative policy optimization)](#grpo-group-relative-policy-optimization)
+- [Policy gradient & REINFORCE](#policy-gradient--reinforce)
+- [Summary table (from PDF)](#summary-table-from-pdf)
+- [Symbol reference (LLM context)](#symbol-reference-llm-context)
+- [References](#references)
+
+### What this repo is / isn’t
+- This is a **learning repo** with compact PyTorch implementations of key RL-for-LLMs objectives (PPO, DPO, GRPO, REINFORCE).
+- It is **not** a full RLHF training stack, production system, or large-scale data pipeline.
+- It aims to be a **didactic reference** you can read end-to-end in one sitting.
+
+### Repo structure
+- `ppo/`: PPO loss utilities and equations.
+- `dpo/`: DPO loss utilities and equations.
+- `grpo/`: GRPO loss utilities and equations.
+- `reinforce/`: REINFORCE utilities and equations.
+- `summary.JPG`: one-page “RL for LLMs at a glance” diagram (Lambert, *Reinforcement Learning from Human Feedback*).
+- `notes.pdf`: Slide-style notes backing this README.
+
+### Quickstart
+- **Install dependencies**
+
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+- **Run toy demos**
+
+  ```bash
+  # REINFORCE on a tiny bandit
+  python examples/demo_reinforce_bandit.py
+
+  # PPO-style clipped update on a bandit
+  python examples/demo_ppo_bandit.py
+
+  # GRPO-style group-relative update on a bandit
+  python examples/demo_grpo_bandit.py
+
+  # Synthetic DPO preference optimization
+  python examples/demo_dpo_synthetic.py
+  ```
+
+  Each script prints simple scalar metrics (e.g., moving-average reward or preference margin) so you can see the objective behaving as expected.
 
 ## Context: RL for LLMs
 
